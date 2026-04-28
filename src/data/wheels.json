@@ -16239,7 +16239,7 @@
   {
     "name": "twz-002",
     "series": "Flat Forging",
-    "imageUrl": "/wheels/twz-002.png",
+    "imageUrl": "https://res.cloudinary.com/dd80gev4v/image/upload/v1777403989/forgiato/wheels/twz-002.png",
     "slug": "twz-002",
     "detail": {
       "images": [
@@ -16482,7 +16482,7 @@
   {
     "name": "trimestre-m-ready",
     "series": "Ready",
-    "imageUrl": "/wheels/trimestre-m-ready.png",
+    "imageUrl": "https://res.cloudinary.com/dd80gev4v/image/upload/v1777403992/forgiato/wheels/trimestre-m-ready.png",
     "slug": "trimestre-m-ready",
     "detail": {
       "images": [
@@ -17405,7 +17405,7 @@
   {
     "name": "belice-xkw-3",
     "series": "Flat Forging",
-    "imageUrl": "/wheels/belice-xkw-3.png",
+    "imageUrl": "https://res.cloudinary.com/dd80gev4v/image/upload/v1777403997/forgiato/wheels/belice-xkw-3.png",
     "slug": "belice-xkw-3",
     "detail": {
       "images": [],
@@ -17430,7 +17430,7 @@
   {
     "name": "belice-xkw-4",
     "series": "Flat Forging",
-    "imageUrl": "/wheels/belice-xkw-4.png",
+    "imageUrl": "https://res.cloudinary.com/dd80gev4v/image/upload/v1777404000/forgiato/wheels/belice-xkw-4.png",
     "slug": "belice-xkw-4",
     "detail": {
       "images": [],
@@ -17480,7 +17480,7 @@
   {
     "name": "belice-xkw-5",
     "series": "Flat Forging",
-    "imageUrl": "/wheels/belice-xkw-5.png",
+    "imageUrl": "https://res.cloudinary.com/dd80gev4v/image/upload/v1777404003/forgiato/wheels/belice-xkw-5.png",
     "slug": "belice-xkw-5",
     "detail": {
       "images": [
