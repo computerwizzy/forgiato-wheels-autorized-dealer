@@ -10,23 +10,15 @@ export default function SiteHeader() {
 
       {/* Main header */}
       <header className="bg-zinc-950 border-b border-zinc-800">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          {/* Brand */}
-          <div className="text-center sm:text-left">
-            <div className="text-red-600 font-black text-2xl tracking-tight leading-none uppercase">
+        <div className="max-w-7xl mx-auto px-6 py-5 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+            <span className="text-red-600 font-black text-2xl tracking-tight uppercase leading-none">
               Wheels Below Retail
-            </div>
-            <div className="text-zinc-400 text-xs tracking-[0.2em] uppercase mt-1">
+            </span>
+            <span className="hidden sm:block text-zinc-600 text-xl font-light">|</span>
+            <span className="text-white font-semibold text-sm tracking-[0.15em] uppercase">
               Forgiato Authorized Dealer
-            </div>
-          </div>
-
-          {/* Forgiato badge */}
-          <div className="flex items-center gap-3">
-            <div className="border border-red-700 rounded px-3 py-1.5 text-center">
-              <div className="text-white text-xs font-semibold tracking-widest uppercase">Authorized</div>
-              <div className="text-red-500 text-sm font-black tracking-wider uppercase">Forgiato</div>
-            </div>
+            </span>
           </div>
         </div>
       </header>
