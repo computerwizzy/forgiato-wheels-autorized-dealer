@@ -9,13 +9,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
-  console.log('[Quote Request]', {
-    wheel: wheelName,
-    contact: { name, email, phone },
-    vehicle: { year: vehicleYear, make: vehicleMake, model: vehicleModel },
-    preferences: { size: body.sizePreference, finish: body.finishPreference },
-    message: body.message,
-  });
+  const sheetsUrl = process.env.GOOGLE_SHEETS_URL;
+  if (sheetsUrl) {
+    try {
+      await fetch(sheetsUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          wheelName,
+          name,
+          email,
+          phone,
+          vehicleYear,
+          vehicleMake,
+          vehicleModel,
+          sizePreference: body.sizePreference ?? '',
+          finishPreference: body.finishPreference ?? '',
+          message: body.message ?? '',
+        }),
+      });
+    } catch (err) {
+      console.error('[Quote] Google Sheets error:', err);
+    }
+  }
 
   return NextResponse.json({ success: true });
 }
