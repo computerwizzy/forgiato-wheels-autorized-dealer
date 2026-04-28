@@ -21,8 +21,8 @@ export default function FilterBar({ series, activeSeries, onChange, wheels }: Pr
       </p>
 
       {/* Mobile: single scrollable row. Tablet+: wrap */}
-      <div className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-visible sm:pb-0"
-           style={{ scrollbarWidth: 'none' }}>
+      <div className="flex flex-nowrap gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-x-visible sm:pb-0"
+           style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
         {['All', ...series].map(s => {
           const active = activeSeries === s;
           return (
