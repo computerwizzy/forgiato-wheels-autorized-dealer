@@ -70,21 +70,21 @@ export default function WheelDetailModal({ wheel, onClose }: Props) {
     <>
       {/* ── Main modal backdrop ── */}
       <div
-        className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+        className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
         onClick={handleBackdrop}
       >
-        <div className="relative bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="relative bg-zinc-900 border-0 sm:border border-zinc-700 rounded-t-2xl sm:rounded-2xl w-full max-w-5xl max-h-[92vh] overflow-y-auto shadow-2xl">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 text-zinc-400 hover:text-white transition-colors text-2xl leading-none"
+            className="absolute top-3 right-3 z-10 text-zinc-400 hover:text-white transition-colors text-2xl leading-none w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-full"
             aria-label="Close"
           >✕</button>
 
-          <div className="p-6 md:p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             {/* Header */}
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6 pr-8">
               <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">{wheel.series}</span>
-              <h2 className="text-white text-2xl md:text-3xl font-bold mt-1">{wheel.name}</h2>
+              <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mt-1">{wheel.name}</h2>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">
@@ -152,7 +152,7 @@ export default function WheelDetailModal({ wheel, onClose }: Props) {
                     <dl className="grid grid-cols-1 gap-y-3">
                       {specEntries.map(({ label, value }) => (
                         <div key={label} className="flex gap-4">
-                          <dt className="text-zinc-400 text-sm w-36 flex-shrink-0">{label}</dt>
+                          <dt className="text-zinc-400 text-sm w-28 sm:w-36 flex-shrink-0">{label}</dt>
                           <dd className="text-white text-sm font-medium">{value}</dd>
                         </div>
                       ))}

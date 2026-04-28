@@ -13,32 +13,33 @@ export default function FilterBar({ series, activeSeries, onChange, wheels }: Pr
     s === 'All' ? wheels.length : wheels.filter(w => w.series === s).length;
 
   return (
-    <div className="mb-10">
-      <p className="text-zinc-400 text-sm font-semibold mb-4">
+    <div className="mb-8">
+      <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-3">
         {activeSeries === 'All'
-          ? `All Collections — ${wheels.length} wheels`
-          : `${activeSeries} — ${countFor(activeSeries)} wheels`}
+          ? `All Collections · ${wheels.length} wheels`
+          : `${activeSeries} · ${countFor(activeSeries)} wheels`}
       </p>
 
-      <div className="flex flex-wrap gap-3">
+      {/* Mobile: single scrollable row. Tablet+: wrap */}
+      <div className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-visible sm:pb-0"
+           style={{ scrollbarWidth: 'none' }}>
         {['All', ...series].map(s => {
           const active = activeSeries === s;
-          const count = countFor(s);
           return (
             <button
               key={s}
               onClick={() => onChange(s)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all duration-150 border-2 ${
+              className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-150 border-2 ${
                 active
-                  ? 'bg-red-700 border-red-700 text-white shadow-lg shadow-red-900/40 scale-105'
+                  ? 'bg-red-700 border-red-700 text-white shadow-md shadow-red-900/40'
                   : 'bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-red-700 hover:text-white'
               }`}
             >
-              <span>{s === 'All' ? 'All Wheels' : s}</span>
-              <span className={`text-xs font-bold rounded-full px-2 py-0.5 ${
-                active ? 'bg-white/20 text-white' : 'bg-zinc-800 text-zinc-400'
+              <span>{s === 'All' ? 'All' : s}</span>
+              <span className={`text-xs font-bold rounded-full px-1.5 py-0.5 ${
+                active ? 'bg-white/20 text-white' : 'bg-zinc-800 text-zinc-500'
               }`}>
-                {count}
+                {countFor(s)}
               </span>
             </button>
           );

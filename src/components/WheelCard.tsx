@@ -22,12 +22,12 @@ export default function WheelCard({ wheel, onDetailClick }: Props) {
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
         />
       </div>
-      <div className="p-4">
-        <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+      <div className="p-3 sm:p-4">
+        <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-zinc-400">
           {wheel.series}
         </span>
-        <h3 className="text-white font-bold text-lg mt-1">{wheel.name}</h3>
-        <div className="mt-4 w-full bg-white text-black font-semibold py-2 px-4 rounded text-center text-sm">
+        <h3 className="text-white font-bold text-sm sm:text-base mt-0.5 sm:mt-1 leading-tight">{wheel.name}</h3>
+        <div className="mt-3 w-full bg-white text-black font-semibold py-2 px-3 rounded text-center text-xs sm:text-sm">
           View Details
         </div>
       </div>

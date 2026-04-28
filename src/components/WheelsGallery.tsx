@@ -26,9 +26,9 @@ export default function WheelsGallery() {
   }
 
   return (
-    <section className="px-6 py-12 max-w-7xl mx-auto">
+    <section className="px-3 sm:px-6 py-6 sm:py-12 max-w-7xl mx-auto">
       <FilterBar series={allSeries} activeSeries={activeSeries} onChange={setActiveSeries} wheels={wheels} />
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
         {filtered.map(wheel => (
           <WheelCard key={wheel.slug} wheel={wheel} onDetailClick={setSelectedWheel} />
         ))}
