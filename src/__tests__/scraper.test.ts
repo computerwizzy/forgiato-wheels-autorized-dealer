@@ -1,64 +1,120 @@
 /**
  * @jest-environment node
  */
-import axios from 'axios';
-import { getWheels, clearCache } from '@/lib/scraper';
+import { getWheels, clearCache, parseWheels } from '@/lib/scraper';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'),
+  existsSync: jest.fn().mockReturnValue(false),
+  readFileSync: jest.fn(),
+}));
 
+jest.mock('puppeteer-extra', () => ({
+  use: jest.fn(),
+  launch: jest.fn(),
+}));
+jest.mock('puppeteer-extra-plugin-stealth', () => jest.fn(() => ({})));
+
+import puppeteer from 'puppeteer-extra';
+const mockedPuppeteer = puppeteer as jest.Mocked<typeof puppeteer>;
+
+// Mirrors forgiato.com's actual HTML structure
 const MOCK_HTML = `
 <html><body>
-  <div class="wheel-card">
-    <a href="/wheels/d-uno">
-      <img src="/images/d-uno.jpg" alt="D'Uno">
-      <h3 class="wheel-title">D'Uno</h3>
-      <span class="wheel-series">Classics</span>
-    </a>
-  </div>
-  <div class="wheel-card">
-    <a href="/wheels/d-due">
-      <img src="https://forgiato.com/images/d-due.jpg" alt="D'Due">
-      <h3 class="wheel-title">D'Due</h3>
-      <span class="wheel-series">Flow Forged</span>
-    </a>
-  </div>
+  <a href="/wheels/ecl/d-uno/">
+    <img src="/static/uploads/website/wheels/d-uno.png"
+         alt="Forgiato D'Uno custom forged wheel — ECL">
+  </a>
+  <a href="/wheels/flat-forging/d-due/">
+    <img src="https://forgiato.com/static/uploads/website/wheels/d-due.png"
+         alt="Forgiato D'Due custom forged wheel — Flat Forging">
+  </a>
 </body></html>
 `;
 
+function makeMockBrowser(html: string) {
+  const mockPage = {
+    setViewport: jest.fn().mockResolvedValue(undefined),
+    goto: jest.fn().mockResolvedValue(undefined),
+    evaluate: jest.fn().mockResolvedValue(0),
+    waitForSelector: jest.fn().mockResolvedValue(undefined),
+    content: jest.fn().mockResolvedValue(html),
+  };
+  return {
+    newPage: jest.fn().mockResolvedValue(mockPage),
+    close: jest.fn().mockResolvedValue(undefined),
+  };
+}
+
 beforeEach(() => {
   clearCache();
-  mockedAxios.get.mockResolvedValue({ data: MOCK_HTML });
+  jest.clearAllMocks();
+  jest.useFakeTimers();
+  const fs = require('fs');
+  fs.existsSync.mockReturnValue(false);
+  (mockedPuppeteer.launch as jest.Mock).mockResolvedValue(makeMockBrowser(MOCK_HTML));
 });
 
-afterEach(() => jest.clearAllMocks());
+afterEach(() => {
+  jest.useRealTimers();
+});
 
-test('returns parsed wheels from HTML', async () => {
-  const wheels = await getWheels();
+test('parseWheels extracts name from alt text and series from URL', () => {
+  const wheels = parseWheels(MOCK_HTML);
   expect(wheels).toHaveLength(2);
   expect(wheels[0]).toEqual({
     name: "D'Uno",
-    series: 'Classics',
-    imageUrl: 'https://forgiato.com/images/d-uno.jpg',
+    series: 'Ecl',
+    imageUrl: 'https://forgiato.com/static/uploads/website/wheels/d-uno.png',
     slug: 'd-uno',
   });
   expect(wheels[1]).toEqual({
     name: "D'Due",
-    series: 'Flow Forged',
-    imageUrl: 'https://forgiato.com/images/d-due.jpg',
+    series: 'Flat Forging',
+    imageUrl: 'https://forgiato.com/static/uploads/website/wheels/d-due.png',
     slug: 'd-due',
   });
 });
 
-test('caches results and does not re-fetch within TTL', async () => {
-  await getWheels();
-  await getWheels();
-  expect(mockedAxios.get).toHaveBeenCalledTimes(1);
+test('parseWheels skips duplicate slugs', () => {
+  const html = `
+    <a href="/wheels/ecl/d-uno/"></a>
+    <a href="/wheels/ecl/d-uno/">
+      <img src="/static/uploads/website/wheels/d-uno.png" alt="Forgiato D'Uno custom forged wheel — ECL">
+    </a>
+    <a href="/wheels/ecl/d-uno/">
+      <img src="/static/uploads/website/wheels/d-uno.png" alt="Forgiato D'Uno custom forged wheel — ECL">
+    </a>
+  `;
+  const wheels = parseWheels(html);
+  expect(wheels).toHaveLength(1);
 });
 
-test('clearCache forces a fresh fetch on next call', async () => {
-  await getWheels();
+test('getWheels launches browser and returns parsed wheels', async () => {
+  const wheelsPromise = getWheels();
+  await jest.runAllTimersAsync();
+  const wheels = await wheelsPromise;
+  expect(mockedPuppeteer.launch).toHaveBeenCalledTimes(1);
+  expect(wheels).toHaveLength(2);
+});
+
+test('caches results and does not re-launch browser within TTL', async () => {
+  const p1 = getWheels();
+  await jest.runAllTimersAsync();
+  await p1;
+  const p2 = getWheels();
+  await jest.runAllTimersAsync();
+  await p2;
+  expect(mockedPuppeteer.launch).toHaveBeenCalledTimes(1);
+});
+
+test('clearCache forces a fresh browser launch on next call', async () => {
+  const p1 = getWheels();
+  await jest.runAllTimersAsync();
+  await p1;
   clearCache();
-  await getWheels();
-  expect(mockedAxios.get).toHaveBeenCalledTimes(2);
+  const p2 = getWheels();
+  await jest.runAllTimersAsync();
+  await p2;
+  expect(mockedPuppeteer.launch).toHaveBeenCalledTimes(2);
 });

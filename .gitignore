@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large local image cache — hosted on Cloudinary for production
+/public/wheels/
+
+# Scraping/dev scripts — not website content
+/scripts/
+
+# docs/specs — internal dev docs
+/docs/
+
+# Claude Code internal files
+/.claude/

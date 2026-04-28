@@ -14,19 +14,19 @@ const WHEEL: Wheel = {
 };
 
 test('renders wheel name and series', () => {
-  render(<WheelCard wheel={WHEEL} onQuoteClick={jest.fn()} />);
+  render(<WheelCard wheel={WHEEL} onDetailClick={jest.fn()} />);
   expect(screen.getByText("D'Uno")).toBeInTheDocument();
   expect(screen.getByText('Classics')).toBeInTheDocument();
 });
 
 test('renders wheel image with correct src', () => {
-  render(<WheelCard wheel={WHEEL} onQuoteClick={jest.fn()} />);
+  render(<WheelCard wheel={WHEEL} onDetailClick={jest.fn()} />);
   expect(screen.getByRole('img')).toHaveAttribute('src', WHEEL.imageUrl);
 });
 
-test('calls onQuoteClick with wheel when button clicked', async () => {
-  const onQuoteClick = jest.fn();
-  render(<WheelCard wheel={WHEEL} onQuoteClick={onQuoteClick} />);
-  await userEvent.click(screen.getByRole('button', { name: /get a quote/i }));
-  expect(onQuoteClick).toHaveBeenCalledWith(WHEEL);
+test('calls onDetailClick with wheel when card clicked', async () => {
+  const onDetailClick = jest.fn();
+  render(<WheelCard wheel={WHEEL} onDetailClick={onDetailClick} />);
+  await userEvent.click(screen.getByText(/view details/i));
+  expect(onDetailClick).toHaveBeenCalledWith(WHEEL);
 });

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Wheel } from '@/types';
 import WheelCard from './WheelCard';
 import FilterBar from './FilterBar';
-import QuoteModal from './QuoteModal';
+import WheelDetailModal from './WheelDetailModal';
 
 export default function WheelsGallery() {
   const [wheels, setWheels] = useState<Wheel[]>([]);
@@ -28,12 +28,18 @@ export default function WheelsGallery() {
   return (
     <section className="px-6 py-12 max-w-7xl mx-auto">
       <FilterBar series={allSeries} activeSeries={activeSeries} onChange={setActiveSeries} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {filtered.map(wheel => (
-          <WheelCard key={wheel.slug} wheel={wheel} onQuoteClick={setSelectedWheel} />
+          <WheelCard key={wheel.slug} wheel={wheel} onDetailClick={setSelectedWheel} />
         ))}
       </div>
-      {selectedWheel && <QuoteModal wheel={selectedWheel} onClose={() => setSelectedWheel(null)} />}
+      {selectedWheel && (
+        <WheelDetailModal
+          key={selectedWheel.slug}
+          wheel={selectedWheel}
+          onClose={() => setSelectedWheel(null)}
+        />
+      )}
     </section>
   );
 }

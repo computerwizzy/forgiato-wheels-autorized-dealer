@@ -8,6 +8,16 @@ jest.mock('next/image', () => ({
   default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
 }));
 
+jest.mock('@/components/WheelDetailModal', () => ({
+  __esModule: true,
+  default: ({ wheel, onClose }: { wheel: Wheel; onClose: () => void }) => (
+    <div data-testid="detail-modal">
+      <span>{wheel.name}</span>
+      <button onClick={onClose}>Close</button>
+    </div>
+  ),
+}));
+
 const MOCK_WHEELS: Wheel[] = [
   { name: "D'Uno", series: 'Classics', imageUrl: 'https://forgiato.com/d-uno.jpg', slug: 'd-uno' },
   { name: 'D-Flow', series: 'Flow Forged', imageUrl: 'https://forgiato.com/d-flow.jpg', slug: 'd-flow' },
@@ -43,9 +53,9 @@ test('filters wheels by series when filter pill clicked', async () => {
   expect(screen.queryByText("D'Uno")).not.toBeInTheDocument();
 });
 
-test('opens quote modal when Get a Quote clicked', async () => {
+test('opens detail modal when card clicked', async () => {
   render(<WheelsGallery />);
-  await waitFor(() => screen.getAllByRole('button', { name: /get a quote/i }));
-  await userEvent.click(screen.getAllByRole('button', { name: /get a quote/i })[0]);
-  expect(screen.getByText(/send request/i)).toBeInTheDocument();
+  await waitFor(() => screen.getByText("D'Uno"));
+  await userEvent.click(screen.getAllByText(/view details/i)[0]);
+  expect(screen.getByTestId('detail-modal')).toBeInTheDocument();
 });
