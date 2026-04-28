@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Wheel } from '@/types';
 
 interface Props {
@@ -10,72 +10,98 @@ interface Props {
 }
 
 export default function FilterBar({ series, activeSeries, onChange, wheels }: Props) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const countFor = (s: string) =>
     s === 'All' ? wheels.length : wheels.filter(w => w.series === s).length;
 
   const allSeries = ['All', ...series];
 
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, []);
+
+  const activeCount = countFor(activeSeries);
+
   return (
-    <div className="mb-8">
-      {/* Section label */}
-      <div className="flex items-center justify-between mb-3 px-1">
-        <span className="text-zinc-500 text-xs uppercase tracking-widest font-semibold">
-          Filter by Series
-        </span>
-        {activeSeries !== 'All' && (
-          <button
-            onClick={() => onChange('All')}
-            className="text-xs text-red-500 hover:text-red-400 transition-colors font-medium"
-          >
-            Clear filter ×
-          </button>
+    <div className="mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
+      {/* Dropdown */}
+      <div ref={ref} className="relative w-full sm:w-72">
+        {/* Trigger */}
+        <button
+          onClick={() => setOpen(o => !o)}
+          className="w-full flex items-center justify-between gap-3 bg-zinc-900 border border-zinc-700 hover:border-amber-700/60 rounded-lg px-4 py-3 text-left transition-colors duration-200 group"
+        >
+          <div>
+            <span className="block text-zinc-500 text-[10px] tracking-[0.3em] uppercase mb-0.5">
+              Filter by Series
+            </span>
+            <span className="text-white font-semibold text-sm">
+              {activeSeries === 'All' ? 'All Collections' : activeSeries}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className="bg-zinc-800 text-zinc-400 text-xs font-bold px-2 py-0.5 rounded">
+              {activeCount}
+            </span>
+            <svg
+              className={`w-4 h-4 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </button>
+
+        {/* Dropdown menu */}
+        {open && (
+          <div className="absolute top-full left-0 right-0 mt-1 bg-zinc-900 border border-zinc-700 rounded-lg shadow-2xl shadow-black/60 z-30 overflow-hidden">
+            <div className="max-h-72 overflow-y-auto">
+              {allSeries.map(s => {
+                const active = activeSeries === s;
+                const count = countFor(s);
+                return (
+                  <button
+                    key={s}
+                    onClick={() => { onChange(s); setOpen(false); }}
+                    className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors duration-150 ${
+                      active
+                        ? 'bg-amber-700/20 text-amber-400 font-semibold'
+                        : 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                    }`}
+                  >
+                    <span>{s === 'All' ? 'All Collections' : s}</span>
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+                      active ? 'bg-amber-900/50 text-amber-400' : 'bg-zinc-800 text-zinc-500'
+                    }`}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
 
-      {/* Scrollable pill row with fade edges */}
-      <div className="relative">
-        {/* Left fade */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-zinc-950 to-transparent z-10" />
-        {/* Right fade */}
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-zinc-950 to-transparent z-10" />
-
-        <div
-          ref={scrollRef}
-          className="flex gap-2 overflow-x-auto pb-1 scroll-smooth"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {allSeries.map(s => {
-            const active = activeSeries === s;
-            const count = countFor(s);
-            return (
-              <button
-                key={s}
-                onClick={() => onChange(s)}
-                className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border transition-all duration-150 ${
-                  active
-                    ? 'bg-red-700 border-red-700 text-white shadow-lg shadow-red-900/30'
-                    : 'bg-zinc-900 border-zinc-700 text-zinc-300 hover:border-red-700 hover:text-white'
-                }`}
-              >
-                <span>{s}</span>
-                <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${
-                  active ? 'bg-red-900 text-red-200' : 'bg-zinc-800 text-zinc-400'
-                }`}>
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Active series indicator */}
+      {/* Active filter indicator */}
       {activeSeries !== 'All' && (
-        <div className="mt-3 px-1 text-sm text-zinc-400">
-          Showing <span className="text-white font-semibold">{countFor(activeSeries)}</span> wheels in{' '}
-          <span className="text-red-500 font-semibold">{activeSeries}</span>
+        <div className="flex items-center gap-3">
+          <span className="text-zinc-500 text-sm">
+            Showing <span className="text-white font-semibold">{activeCount}</span> wheels in{' '}
+            <span className="text-amber-500 font-semibold">{activeSeries}</span>
+          </span>
+          <button
+            onClick={() => onChange('All')}
+            className="text-xs text-zinc-500 hover:text-white border border-zinc-700 hover:border-zinc-500 rounded px-2 py-1 transition-colors"
+          >
+            Clear ×
+          </button>
         </div>
       )}
     </div>
