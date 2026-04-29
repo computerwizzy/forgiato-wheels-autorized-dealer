@@ -22,6 +22,7 @@ export interface Wheel {
 
 export interface QuoteFormData {
   wheelName: string;
+  wheelImageUrl: string;
   name: string;
   email: string;
   phone: string;

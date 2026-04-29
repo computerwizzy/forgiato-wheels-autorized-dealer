@@ -3,7 +3,7 @@ import { QuoteFormData } from '@/types';
 
 export async function POST(req: NextRequest) {
   const body: Partial<QuoteFormData> = await req.json();
-  const { wheelName, name, email, phone, vehicleYear, vehicleMake, vehicleModel } = body;
+  const { wheelName, wheelImageUrl, name, email, phone, vehicleYear, vehicleMake, vehicleModel } = body;
 
   if (!wheelName || !name || !email || !phone || !vehicleYear || !vehicleMake || !vehicleModel) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           wheelName,
+          wheelImageUrl: wheelImageUrl ?? '',
           name,
           email,
           phone,

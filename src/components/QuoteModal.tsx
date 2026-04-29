@@ -40,7 +40,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
     await fetch('/api/quote', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wheelName: wheel.name, ...form }),
+      body: JSON.stringify({ wheelName: wheel.name, wheelImageUrl: wheel.imageUrl, ...form }),
     });
     setLoading(false);
     setSubmitted(true);
