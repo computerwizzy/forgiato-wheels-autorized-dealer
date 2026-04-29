@@ -13,7 +13,7 @@ function parseSizes(sizesStr: string): string[] {
   return sizesStr.match(/\d+["″]/g) ?? sizesStr.split(/[\s,]+/).filter(Boolean);
 }
 
-const inputCls = 'w-full bg-zinc-800 border border-zinc-600 rounded px-3 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-300 transition-colors';
+const inputCls = 'w-full bg-zinc-800 border border-zinc-600 rounded px-3 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-red-500 transition-colors';
 const labelCls = 'block text-zinc-300 text-sm mb-1';
 
 export default function QuoteModal({ wheel, onClose }: Props) {
@@ -70,7 +70,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
               <Image src={wheel.imageUrl} alt={wheel.name} fill className="object-contain p-1" />
             </div>
             <div>
-              <p className="text-zinc-400 text-xs uppercase tracking-widest">{wheel.series}</p>
+              <p className="text-red-500 text-xs font-bold uppercase tracking-widest">{wheel.series}</p>
               <h2 className="text-white font-bold text-xl">{wheel.name}</h2>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-white text-black font-bold py-3 px-4 rounded-lg hover:bg-zinc-200 transition-colors disabled:opacity-50 text-base"
+                className="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 text-base"
               >
                 {loading ? 'Sending...' : 'Send Request'}
               </button>
