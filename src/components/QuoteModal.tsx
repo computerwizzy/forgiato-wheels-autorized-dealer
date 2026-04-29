@@ -135,16 +135,15 @@ export default function QuoteModal({ wheel, onClose }: Props) {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="q-size" className={labelCls}>Size</label>
-                      {wheel.detail?.specs.sizes ? (
-                        <select id="q-size" value={form.sizePreference} onChange={set('sizePreference')} className={inputCls}>
-                          <option value="">Select size</option>
-                          {parseSizes(wheel.detail.specs.sizes).map(s => (
-                            <option key={s} value={s}>{s}</option>
-                          ))}
-                        </select>
-                      ) : (
-                        <input id="q-size" type="text" value={form.sizePreference} onChange={set('sizePreference')} className={inputCls} placeholder='e.g. 22" or 24"' />
-                      )}
+                      <select id="q-size" value={form.sizePreference} onChange={set('sizePreference')} className={inputCls}>
+                        <option value="">Select size</option>
+                        {(wheel.detail?.specs.sizes
+                          ? parseSizes(wheel.detail.specs.sizes)
+                          : Array.from({ length: 14 }, (_, i) => `${i + 17}"`)
+                        ).map(s => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
                     </div>
                     <div>
                       <label htmlFor="q-finish" className={labelCls}>Finish / Color</label>
