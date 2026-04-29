@@ -17,7 +17,9 @@ function isValidPhone(phone: string) {
 }
 
 function isValidName(name: string) {
-  return name.trim().length >= 3 && /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]+$/.test(name.trim());
+  const trimmed = name.trim();
+  return trimmed.length >= 5 &&
+    /^[a-zA-ZÀ-ÖØ-öø-ÿ'\-]+(\s+[a-zA-ZÀ-ÖØ-öø-ÿ'\-]+)+$/.test(trimmed);
 }
 
 const inputCls = 'w-full bg-zinc-800 border border-zinc-600 rounded px-3 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-red-500 transition-colors';
@@ -46,7 +48,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
 
   function validate() {
     const errs: Record<string, string> = {};
-    if (!isValidName(form.name)) errs.name = 'Enter a valid full name (letters only)';
+    if (!isValidName(form.name)) errs.name = 'Enter your first and last name';
     if (!isValidPhone(form.phone)) errs.phone = 'Enter a valid 10-digit phone number';
     return errs;
   }

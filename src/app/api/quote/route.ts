@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   // Block bots: phone must be at least 10 digits, name must be letters only
   const phoneDigits = phone.replace(/\D/g, '');
   const validPhone = phoneDigits.length >= 10;
-  const validName = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{3,}$/.test(name.trim());
+  const validName = name.trim().length >= 5 && /^[a-zA-ZÀ-ÖØ-öø-ÿ'\-]+(\s+[a-zA-ZÀ-ÖØ-öø-ÿ'\-]+)+$/.test(name.trim());
   if (!validPhone || !validName) {
     return NextResponse.json({ error: 'Invalid submission' }, { status: 422 });
   }
