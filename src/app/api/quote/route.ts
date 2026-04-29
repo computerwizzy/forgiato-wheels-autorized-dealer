@@ -9,6 +9,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
+  // Block bots: phone must be at least 10 digits, name must be letters only
+  const phoneDigits = phone.replace(/\D/g, '');
+  const validPhone = phoneDigits.length >= 10;
+  const validName = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]{3,}$/.test(name.trim());
+  if (!validPhone || !validName) {
+    return NextResponse.json({ error: 'Invalid submission' }, { status: 422 });
+  }
+
   const sheetsUrl = process.env.GOOGLE_SHEETS_URL;
   if (sheetsUrl) {
     try {

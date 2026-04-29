@@ -9,11 +9,19 @@ const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => String(CURRENT_YEAR - i));
 
 function parseSizes(sizesStr: string): string[] {
-  // "17" 18" 19" 20" 21" 22" 24" 26" 28" 30"" → ["17\"", "18\"", ...]
   return sizesStr.match(/\d+["″]/g) ?? sizesStr.split(/[\s,]+/).filter(Boolean);
 }
 
+function isValidPhone(phone: string) {
+  return /^\+?[\d\s\-().]{10,}$/.test(phone) && phone.replace(/\D/g, '').length >= 10;
+}
+
+function isValidName(name: string) {
+  return name.trim().length >= 3 && /^[a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]+$/.test(name.trim());
+}
+
 const inputCls = 'w-full bg-zinc-800 border border-zinc-600 rounded px-3 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-red-500 transition-colors';
+const inputErrCls = 'w-full bg-zinc-800 border border-red-500 rounded px-3 py-2 text-white placeholder-zinc-500 focus:outline-none focus:border-red-400 transition-colors';
 const labelCls = 'block text-zinc-300 text-sm mb-1';
 
 export default function QuoteModal({ wheel, onClose }: Props) {
@@ -27,20 +35,35 @@ export default function QuoteModal({ wheel, onClose }: Props) {
     sizePreference: '',
     finishPreference: '',
     message: '',
+    honeypot: '',
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(f => ({ ...f, [field]: e.target.value }));
 
+  function validate() {
+    const errs: Record<string, string> = {};
+    if (!isValidName(form.name)) errs.name = 'Enter a valid full name (letters only)';
+    if (!isValidPhone(form.phone)) errs.phone = 'Enter a valid 10-digit phone number';
+    return errs;
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Honeypot — silently drop bot submissions
+    if (form.honeypot) { setSubmitted(true); return; }
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
     setLoading(true);
+    const { honeypot: _, ...payload } = form;
     await fetch('/api/quote', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wheelName: wheel.name, wheelImageUrl: wheel.imageUrl, ...form }),
+      body: JSON.stringify({ wheelName: wheel.name, wheelImageUrl: wheel.imageUrl, ...payload }),
     });
     setLoading(false);
     setSubmitted(true);
@@ -83,13 +106,25 @@ export default function QuoteModal({ wheel, onClose }: Props) {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
 
+              {/* Honeypot — hidden from humans, bots fill it */}
+              <input
+                type="text"
+                value={form.honeypot}
+                onChange={set('honeypot')}
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
+
               {/* ── Contact ── */}
               <fieldset>
                 <legend className="text-zinc-400 text-xs uppercase tracking-widest mb-3">Your Information</legend>
                 <div className="space-y-3">
                   <div>
                     <label htmlFor="q-name" className={labelCls}>Full Name <span className="text-zinc-500">*</span></label>
-                    <input id="q-name" type="text" required value={form.name} onChange={set('name')} className={inputCls} placeholder="John Smith" />
+                    <input id="q-name" type="text" required value={form.name} onChange={set('name')} className={errors.name ? inputErrCls : inputCls} placeholder="John Smith" />
+                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
@@ -98,7 +133,8 @@ export default function QuoteModal({ wheel, onClose }: Props) {
                     </div>
                     <div>
                       <label htmlFor="q-phone" className={labelCls}>Phone <span className="text-zinc-500">*</span></label>
-                      <input id="q-phone" type="tel" required value={form.phone} onChange={set('phone')} className={inputCls} placeholder="(555) 000-0000" />
+                      <input id="q-phone" type="tel" required value={form.phone} onChange={set('phone')} className={errors.phone ? inputErrCls : inputCls} placeholder="(555) 000-0000" />
+                      {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
                     </div>
                   </div>
                 </div>
