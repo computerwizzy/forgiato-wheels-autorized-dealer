@@ -46,6 +46,16 @@ export default function QuoteModal({ wheel, onClose }: Props) {
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(f => ({ ...f, [field]: e.target.value }));
 
+  const setLettersOnly = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-ZÀ-ÖØ-öø-ÿ\s'\-]/g, '');
+    setForm(f => ({ ...f, [field]: val }));
+  };
+
+  const setPhoneOnly = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^\d\s\-().+]/g, '');
+    setForm(f => ({ ...f, [field]: val }));
+  };
+
   function validate() {
     const errs: Record<string, string> = {};
     if (!isValidName(form.name)) errs.name = 'Enter your first and last name';
@@ -125,7 +135,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
                 <div className="space-y-3">
                   <div>
                     <label htmlFor="q-name" className={labelCls}>Full Name <span className="text-zinc-500">*</span></label>
-                    <input id="q-name" type="text" required value={form.name} onChange={set('name')} className={errors.name ? inputErrCls : inputCls} placeholder="John Smith" />
+                    <input id="q-name" type="text" required value={form.name} onChange={setLettersOnly('name')} className={errors.name ? inputErrCls : inputCls} placeholder="John Smith" />
                     {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -135,7 +145,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
                     </div>
                     <div>
                       <label htmlFor="q-phone" className={labelCls}>Phone <span className="text-zinc-500">*</span></label>
-                      <input id="q-phone" type="tel" required value={form.phone} onChange={set('phone')} className={errors.phone ? inputErrCls : inputCls} placeholder="(555) 000-0000" />
+                      <input id="q-phone" type="tel" required value={form.phone} onChange={setPhoneOnly('phone')} className={errors.phone ? inputErrCls : inputCls} placeholder="(555) 000-0000" />
                       {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
                     </div>
                   </div>
