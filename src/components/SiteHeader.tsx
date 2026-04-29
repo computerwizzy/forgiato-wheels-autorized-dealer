@@ -28,6 +28,12 @@ export default function SiteHeader() {
             priority
           />
 
+          {/* Build time - center */}
+          <div className="text-center hidden sm:block">
+            <p className="text-gray-700 text-sm sm:text-base font-semibold">• Custom Finishes</p>
+            <p className="text-gray-700 text-sm sm:text-base font-semibold">• 4 to 6 Weeks Build Time</p>
+          </div>
+
           {/* Forgiato badge */}
           <div className="border-l border-gray-200 pl-4 sm:pl-6">
             <div className="text-gray-400 text-[9px] sm:text-[10px] tracking-[0.25em] uppercase font-medium">Authorized Dealer</div>
@@ -37,14 +43,7 @@ export default function SiteHeader() {
         </div>
       </header>
 
-      {/* Build time banner */}
-      <div className="bg-white px-4 pt-4 pb-2 flex justify-center">
-        <div className="border-2 border-red-400 bg-red-50 rounded-lg px-6 py-3 text-center max-w-lg w-full">
-          <p className="text-gray-700 text-base sm:text-lg font-semibold">
-            • Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time
-          </p>
-        </div>
-      </div>
+
     </>
   );
 }
