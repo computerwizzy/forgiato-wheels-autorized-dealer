@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function SiteHeader() {
   return (
     <>
@@ -16,11 +18,14 @@ export default function SiteHeader() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
 
           {/* Logo */}
-          <div className="leading-tight">
-            <div className="text-black font-black text-base sm:text-xl tracking-tight uppercase">WHEELS</div>
-            <div className="text-black font-normal text-[10px] sm:text-xs tracking-widest uppercase -mt-0.5">below</div>
-            <div className="text-red-700 font-black text-base sm:text-xl tracking-tight uppercase -mt-0.5">RETAIL</div>
-          </div>
+          <Image
+            src="https://www.wheelsbelowretail.com/cdn/shop/files/logo_ab2d699e-4150-4a03-8027-2c7d6dc1f653.png?v=1650604568&width=150"
+            alt="Wheels Below Retail"
+            width={120}
+            height={48}
+            className="object-contain"
+            priority
+          />
 
           {/* Forgiato badge */}
           <div className="border-l border-gray-200 pl-4 sm:pl-6">
