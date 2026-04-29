@@ -5,11 +5,12 @@ export default function SiteHeader() {
     <>
       {/* Red top bar */}
       <div className="bg-red-700 text-white py-2 px-4 text-center">
+        <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">For Custom Quote and Availability Call </span>
         <a
           href="tel:2056441082"
-          className="text-xs sm:text-sm font-bold tracking-widest uppercase hover:text-red-200 transition-colors"
+          className="text-xs sm:text-sm font-bold tracking-widest uppercase underline hover:text-red-200 transition-colors"
         >
-          CALL 205-644-1082
+          205-644-1082
         </a>
       </div>
 
@@ -39,7 +40,7 @@ export default function SiteHeader() {
       {/* Build time banner */}
       <div className="bg-white px-4 pt-4 pb-2 flex justify-center">
         <div className="border-2 border-red-400 bg-red-50 rounded-lg px-6 py-3 text-center max-w-lg w-full">
-          <p className="text-gray-700 text-xs sm:text-sm">
+          <p className="text-gray-700 text-base sm:text-lg font-semibold">
             • Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time
           </p>
         </div>
