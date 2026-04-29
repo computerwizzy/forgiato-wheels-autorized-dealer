@@ -28,7 +28,7 @@ export default function SiteHeader() {
             priority
           />
 
-          {/* Build time - center */}
+          {/* Build time - center (desktop only) */}
           <div className="hidden sm:block border-2 border-red-400 bg-red-50 rounded-lg px-6 py-3 text-center">
             <p className="text-gray-700 text-sm sm:text-base font-semibold">• Custom Finishes</p>
             <p className="text-gray-700 text-sm sm:text-base font-semibold">• 4 to 6 Weeks Build Time</p>
@@ -41,6 +41,14 @@ export default function SiteHeader() {
           </div>
 
         </div>
+
+        {/* Build time - mobile only, full width below logo row */}
+        <div className="sm:hidden px-4 pb-3">
+          <div className="border-2 border-red-400 bg-red-50 rounded-lg py-2 text-center">
+            <p className="text-gray-700 text-sm font-semibold">• Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time</p>
+          </div>
+        </div>
+
       </header>
 
 
