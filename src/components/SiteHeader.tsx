@@ -29,7 +29,7 @@ export default function SiteHeader() {
           />
 
           {/* Build time - center */}
-          <div className="text-center hidden sm:block">
+          <div className="hidden sm:block border-2 border-red-400 bg-red-50 rounded-lg px-6 py-3 text-center">
             <p className="text-gray-700 text-sm sm:text-base font-semibold">• Custom Finishes</p>
             <p className="text-gray-700 text-sm sm:text-base font-semibold">• 4 to 6 Weeks Build Time</p>
           </div>
