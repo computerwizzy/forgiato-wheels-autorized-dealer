@@ -83,7 +83,7 @@ export default function WheelDetailModal({ wheel, onClose }: Props) {
           <div className="p-4 sm:p-6 md:p-8">
             {/* Header */}
             <div className="mb-4 sm:mb-6 pr-8">
-              <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">{wheel.series}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-red-500">{wheel.series}</span>
               <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mt-1">{wheel.name}</h2>
             </div>
 
@@ -133,7 +133,7 @@ export default function WheelDetailModal({ wheel, onClose }: Props) {
                       <button
                         key={i}
                         onClick={() => setActiveIdx(i)}
-                        className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === activeIdx ? 'border-white' : 'border-zinc-600 hover:border-zinc-400'}`}
+                        className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === activeIdx ? 'border-red-500' : 'border-zinc-600 hover:border-red-400'}`}
                       >
                         <div className="relative w-full h-full bg-zinc-800">
                           <Image src={src} alt={`Thumbnail ${i + 1}`} fill className="object-contain p-1" sizes="56px" />
@@ -174,7 +174,7 @@ export default function WheelDetailModal({ wheel, onClose }: Props) {
                 <div className="mt-auto pt-4">
                   <button
                     onClick={() => setShowQuote(true)}
-                    className="w-full bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-zinc-200 transition-colors text-base"
+                    className="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg transition-colors text-base"
                   >
                     Get a Quote
                   </button>
