@@ -71,7 +71,7 @@ export default function QuoteModal({ wheel, onClose }: Props) {
             </div>
             <div>
               <p className="text-red-500 text-xs font-bold uppercase tracking-widest">{wheel.series}</p>
-              <h2 className="text-white font-bold text-xl">{wheel.name}</h2>
+              <h2 className="text-white font-bold text-xl uppercase">{wheel.name}</h2>
             </div>
           </div>
 

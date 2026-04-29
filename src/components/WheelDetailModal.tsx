@@ -84,7 +84,7 @@ export default function WheelDetailModal({ wheel, onClose }: Props) {
             {/* Header */}
             <div className="mb-4 sm:mb-6 pr-8">
               <span className="text-xs font-bold uppercase tracking-widest text-red-500">{wheel.series}</span>
-              <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mt-1">{wheel.name}</h2>
+              <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mt-1 uppercase">{wheel.name}</h2>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">

@@ -26,7 +26,7 @@ export default function WheelCard({ wheel, onDetailClick }: Props) {
         <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-red-500">
           {wheel.series}
         </span>
-        <h3 className="text-white font-bold text-base sm:text-lg mt-0.5 sm:mt-1 leading-tight">{wheel.name}</h3>
+        <h3 className="text-white font-bold text-base sm:text-lg mt-0.5 sm:mt-1 leading-tight uppercase">{wheel.name}</h3>
         <div className="mt-3 w-full bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-3 rounded text-center text-xs sm:text-sm transition-colors">
           View Details
         </div>
