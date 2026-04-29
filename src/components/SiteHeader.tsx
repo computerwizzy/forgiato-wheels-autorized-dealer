@@ -11,8 +11,6 @@ export default function SiteHeader() {
         >
           CALL 205-644-1082
         </a>
-        <span className="mx-2 opacity-50">|</span>
-        <span className="text-xs sm:text-sm opacity-90">Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time</span>
       </div>
 
       {/* Header */}
@@ -38,7 +36,14 @@ export default function SiteHeader() {
         </div>
       </header>
 
-
+      {/* Build time banner */}
+      <div className="bg-white px-4 pt-4 pb-2 flex justify-center">
+        <div className="border-2 border-red-400 bg-red-50 rounded-lg px-6 py-3 text-center max-w-lg w-full">
+          <p className="text-gray-700 text-xs sm:text-sm">
+            • Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time
+          </p>
+        </div>
+      </div>
     </>
   );
 }
