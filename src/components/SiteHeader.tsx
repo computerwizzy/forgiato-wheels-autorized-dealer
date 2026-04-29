@@ -29,7 +29,7 @@ export default function SiteHeader() {
           />
 
           {/* Build time - center (desktop only) */}
-          <div className="hidden sm:block border-2 border-red-400 bg-red-50 rounded-lg px-6 py-3 text-center">
+          <div className="hidden sm:block border-2 border-red-600 bg-red-50 rounded-lg px-6 py-3 text-center shadow-sm shadow-red-200">
             <p className="text-gray-700 text-sm sm:text-base font-semibold">• Custom Finishes</p>
             <p className="text-gray-700 text-sm sm:text-base font-semibold">• 4 to 6 Weeks Build Time</p>
           </div>
@@ -44,7 +44,7 @@ export default function SiteHeader() {
 
         {/* Build time - mobile only, full width below logo row */}
         <div className="sm:hidden px-4 pb-3">
-          <div className="border-2 border-red-400 bg-red-50 rounded-lg py-2 text-center">
+          <div className="border-2 border-red-600 bg-red-50 rounded-lg py-2 text-center">
             <p className="text-gray-700 text-sm font-semibold">• Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time</p>
           </div>
         </div>

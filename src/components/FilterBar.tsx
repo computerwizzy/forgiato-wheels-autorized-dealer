@@ -21,6 +21,7 @@ export default function FilterBar({ series, activeSeries, onChange, wheels }: Pr
       </p>
 
       {/* Mobile: single scrollable row. Tablet+: wrap */}
+      <div className="relative">
       <div className="flex flex-nowrap gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-x-visible sm:pb-0"
            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
         {['All', ...series].map(s => {
@@ -44,6 +45,9 @@ export default function FilterBar({ series, activeSeries, onChange, wheels }: Pr
             </button>
           );
         })}
+      </div>
+      {/* Scroll fade hint — mobile only */}
+      <div className="sm:hidden absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-zinc-950 to-transparent pointer-events-none" />
       </div>
     </div>
   );
