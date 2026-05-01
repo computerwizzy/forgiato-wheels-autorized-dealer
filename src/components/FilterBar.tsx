@@ -22,7 +22,7 @@ export default function FilterBar({ series, activeSeries, onChange, wheels }: Pr
         </p>
         <p className="text-zinc-500 text-sm">
           <span className="text-red-500 font-semibold">Authorized Dealer Catalog</span>
-          {' '}— tap any wheel to request a quote
+          {' '}— tap a wheel to quote
         </p>
       </div>
 
