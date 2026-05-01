@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       const { access_token } = await tokenRes.json();
 
       if (access_token) {
-        const smsBody = `New Forgiato quote!\nWheel: ${wheelName}\nFrom: ${name}\nPhone: ${phone}\nVehicle: ${vehicleYear} ${vehicleMake} ${vehicleModel}${wheelImageUrl ? `\n${wheelImageUrl}` : ''}`;
+        const smsBody = `New Forgiato quote!\nWheel: ${wheelName}\nSize: ${body.sizePreference || 'N/A'}\nFinish: ${body.finishPreference || 'N/A'}\nFrom: ${name}\nPhone: ${phone}\nVehicle: ${vehicleYear} ${vehicleMake} ${vehicleModel}${wheelImageUrl ? `\n${wheelImageUrl}` : ''}`;
         await fetch('https://api.podium.com/v4/messages', {
           method: 'POST',
           headers: {
