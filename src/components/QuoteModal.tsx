@@ -182,21 +182,21 @@ export default function QuoteModal({ wheel, onClose }: Props) {
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="q-size" className={labelCls}>Size</label>
+                      <label htmlFor="q-size" className={labelCls}>Size <span className="text-zinc-500">*</span></label>
                       {wheel.detail?.specs.sizes ? (
-                        <select id="q-size" value={form.sizePreference} onChange={set('sizePreference')} className={inputCls}>
+                        <select id="q-size" required value={form.sizePreference} onChange={set('sizePreference')} className={inputCls}>
                           <option value="">Select size</option>
                           {parseSizes(wheel.detail.specs.sizes).map(s => (
                             <option key={s} value={s}>{s}</option>
                           ))}
                         </select>
                       ) : (
-                        <input id="q-size" type="text" value={form.sizePreference} onChange={set('sizePreference')} className={inputCls} placeholder='e.g. 22" or 24"' />
+                        <input id="q-size" type="text" required value={form.sizePreference} onChange={set('sizePreference')} className={inputCls} placeholder='e.g. 22" or 24"' />
                       )}
                     </div>
                     <div>
-                      <label htmlFor="q-finish" className={labelCls}>Finish / Color</label>
-                      <input id="q-finish" type="text" value={form.finishPreference} onChange={set('finishPreference')} className={inputCls} placeholder="e.g. Brushed Silver" />
+                      <label htmlFor="q-finish" className={labelCls}>Finish / Color <span className="text-zinc-500">*</span></label>
+                      <input id="q-finish" type="text" required value={form.finishPreference} onChange={set('finishPreference')} className={inputCls} placeholder="e.g. Brushed Silver" />
                     </div>
                   </div>
                   <div>
