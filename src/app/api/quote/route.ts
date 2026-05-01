@@ -60,20 +60,33 @@ export async function POST(req: NextRequest) {
       const { access_token } = await tokenRes.json();
 
       if (access_token) {
-        const smsBody = `New Forgiato quote!\nWheel: ${wheelName}\nSize: ${body.sizePreference || 'N/A'}\nFinish: ${body.finishPreference || 'N/A'}\nFrom: ${name}\nPhone: ${phone}\nVehicle: ${vehicleYear} ${vehicleMake} ${vehicleModel}${wheelImageUrl ? `\n${wheelImageUrl}` : ''}`;
+        const podiumHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${access_token}`,
+        };
+
+        // Notify dealer
+        const dealerSms = `New Forgiato quote!\nWheel: ${wheelName}\nSize: ${body.sizePreference || 'N/A'}\nFinish: ${body.finishPreference || 'N/A'}\nFrom: ${name}\nPhone: ${phone}\nVehicle: ${vehicleYear} ${vehicleMake} ${vehicleModel}${wheelImageUrl ? `\n${wheelImageUrl}` : ''}`;
         await fetch('https://api.podium.com/v4/messages', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${access_token}`,
-          },
+          headers: podiumHeaders,
           body: JSON.stringify({
-            body: smsBody,
+            body: dealerSms,
             locationUid: process.env.PODIUM_LOCATION_UID,
-            channel: {
-              identifier: process.env.PODIUM_DEALER_PHONE,
-              type: 'phone',
-            },
+            channel: { identifier: process.env.PODIUM_DEALER_PHONE, type: 'phone' },
+          }),
+        });
+
+        // Confirm to customer
+        const firstName = name.trim().split(' ')[0];
+        const customerSms = `Hi ${firstName}, thanks for your interest in the Forgiato ${wheelName}! We received your quote request and will reach out shortly. - Wheels Below Retail`;
+        await fetch('https://api.podium.com/v4/messages', {
+          method: 'POST',
+          headers: podiumHeaders,
+          body: JSON.stringify({
+            body: customerSms,
+            locationUid: process.env.PODIUM_LOCATION_UID,
+            channel: { identifier: phone, type: 'phone' },
           }),
         });
       }
