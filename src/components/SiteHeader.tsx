@@ -28,11 +28,18 @@ export default function SiteHeader() {
             priority
           />
 
-          {/* Build time - center (desktop only) */}
-          <div className="hidden sm:block border-2 border-red-600 bg-red-50 rounded-lg px-6 py-3 text-center shadow-sm shadow-red-200">
-            <p className="text-gray-700 text-sm sm:text-base font-semibold">• Custom Finishes</p>
-            <p className="text-gray-700 text-sm sm:text-base font-semibold">• 4 to 6 Weeks Build Time</p>
+          {/* Marquee - center (desktop only) */}
+          <div className="hidden sm:block border-2 border-red-600 bg-red-50 rounded-lg py-3 shadow-sm shadow-red-200 overflow-hidden flex-1 mx-6">
+            <div className="flex whitespace-nowrap" style={{ animation: 'marquee 18s linear infinite' }}>
+              <span className="text-gray-700 text-sm font-semibold px-4">
+                Custom Finishes and Sizes &nbsp;•&nbsp; 4 to 6 Weeks Build Time &nbsp;•&nbsp; Finance Available &nbsp;•&nbsp; Personalized Quotes &nbsp;•&nbsp; $55 Down if Qualified &nbsp;•&nbsp;
+              </span>
+              <span className="text-gray-700 text-sm font-semibold px-4" aria-hidden="true">
+                Custom Finishes and Sizes &nbsp;•&nbsp; 4 to 6 Weeks Build Time &nbsp;•&nbsp; Finance Available &nbsp;•&nbsp; Personalized Quotes &nbsp;•&nbsp; $55 Down if Qualified &nbsp;•&nbsp;
+              </span>
+            </div>
           </div>
+          <style>{`@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }`}</style>
 
           {/* Forgiato badge */}
           <div className="border-l border-gray-200 pl-4 sm:pl-6">
@@ -44,8 +51,15 @@ export default function SiteHeader() {
 
         {/* Build time - mobile only, full width below logo row */}
         <div className="sm:hidden px-4 pb-3">
-          <div className="border-2 border-red-600 bg-red-50 rounded-lg py-2 text-center">
-            <p className="text-gray-700 text-sm font-semibold">• Custom Finishes &nbsp;•&nbsp; 4 to 6 Weeks Build Time</p>
+          <div className="border-2 border-red-600 bg-red-50 rounded-lg py-2 overflow-hidden">
+            <div className="flex whitespace-nowrap" style={{ animation: 'marquee 18s linear infinite' }}>
+              <span className="text-gray-700 text-xs font-semibold px-4">
+                Custom Finishes and Sizes &nbsp;•&nbsp; 4 to 6 Weeks Build Time &nbsp;•&nbsp; Finance Available &nbsp;•&nbsp; Personalized Quotes &nbsp;•&nbsp; $55 Down if Qualified &nbsp;•&nbsp;
+              </span>
+              <span className="text-gray-700 text-xs font-semibold px-4" aria-hidden="true">
+                Custom Finishes and Sizes &nbsp;•&nbsp; 4 to 6 Weeks Build Time &nbsp;•&nbsp; Finance Available &nbsp;•&nbsp; Personalized Quotes &nbsp;•&nbsp; $55 Down if Qualified &nbsp;•&nbsp;
+              </span>
+            </div>
           </div>
         </div>
 
