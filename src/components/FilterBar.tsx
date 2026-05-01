@@ -14,11 +14,17 @@ export default function FilterBar({ series, activeSeries, onChange, wheels }: Pr
 
   return (
     <div className="mb-8">
-      <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-3">
-        {activeSeries === 'All'
-          ? `All Collections · ${wheels.length} wheels`
-          : `${activeSeries} · ${countFor(activeSeries)} wheels`}
-      </p>
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 mb-3">
+        <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">
+          {activeSeries === 'All'
+            ? `All Collections · ${wheels.length} wheels`
+            : `${activeSeries} · ${countFor(activeSeries)} wheels`}
+        </p>
+        <p className="text-zinc-600 text-xs">
+          <span className="text-red-600 font-semibold">Authorized Dealer Catalog</span>
+          {' '}— tap any wheel to request a quote
+        </p>
+      </div>
 
       {/* Mobile: single scrollable row. Tablet+: wrap */}
       <div className="relative">
