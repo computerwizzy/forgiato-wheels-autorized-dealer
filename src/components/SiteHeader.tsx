@@ -19,7 +19,7 @@ export default function SiteHeader() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
 
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <a href="https://www.wheelsbelowretail.com" target="_top" className="flex-shrink-0">
             <Image
               src="https://www.wheelsbelowretail.com/cdn/shop/files/logo_ab2d699e-4150-4a03-8027-2c7d6dc1f653.png?v=1650604568&width=150"
               alt="Wheels Below Retail"
@@ -28,7 +28,7 @@ export default function SiteHeader() {
               className="object-contain w-24 sm:w-[120px] h-auto"
               priority
             />
-          </div>
+          </a>
 
           {/* Marquee - center (desktop only) */}
           <div className="hidden sm:block border-2 border-red-600 bg-red-50 rounded-lg py-3 shadow-sm shadow-red-200 overflow-hidden flex-1 mx-6">
